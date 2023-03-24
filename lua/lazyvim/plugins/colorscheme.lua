@@ -7,6 +7,13 @@ return {
     opts = { style = "moon" },
   },
 
+  -- gruvbox
+  {
+    "sainnhe/gruvbox-material",
+    lazy = true,
+    name = "gruvbox",
+  },
+
   -- catppuccin
   {
     "catppuccin/nvim",
