@@ -75,11 +75,8 @@ return {
       { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
       { "<leader>fw", "<cmd> Telescope live_grep <CR>" },
       { "<leader>fb", "<cmd> Telescope buffers <CR>" },
-      { "<leader>fh", "<cmd> Telescope help_tags <CR>" },
       { "<leader>fo", "<cmd> Telescope oldfiles <CR>" },
-      { "<leader>tk", "<cmd> Telescope keymaps <CR>" },
-      { "<leader>cm", "<cmd> Telescope git_commits <CR>" },
-      { "<leader>gt", "<cmd> Telescope git_status <CR>" },
+      { "<leader>fk", "<cmd> Telescope keymaps <CR>" },
     },
     opts = {
       defaults = {
