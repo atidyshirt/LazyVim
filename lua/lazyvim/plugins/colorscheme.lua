@@ -11,7 +11,7 @@ return {
   {
     "sainnhe/gruvbox-material",
     lazy = true,
-    name = "gruvbox-material",
+    name = "gruvbox",
   },
 
   -- catppuccin
