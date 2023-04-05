@@ -146,10 +146,38 @@ return {
         end,
       })
     end,
-    keys = {
-      { "]]", desc = "Next Reference" },
-      { "[[", desc = "Prev Reference" },
+  },
+
+  {
+    "liangxianzhe/nap.nvim",
+    opts = {
+      next_prefix = ",",
+      prev_prefix = ",",
+      next_repeat = "<c-n>",
+      prev_repeat = "<c-p>",
     },
+    init = function()
+      require("nap").operator("t", {
+        next = {
+          command = function()
+            require("trouble").next({ skip_groups = true, jump = true })
+          end,
+          desc = "Trouble next",
+        },
+        prev = {
+          command = function()
+            require("trouble").previous({ skip_groups = true, jump = true })
+          end,
+          desc = "Trouble previous",
+        },
+        mode = { "n", "v", "o" },
+      })
+      require("nap").operator("r", {
+        next = { command = require("illuminate").goto_next_reference, desc = "Next cursor word" },
+        prev = { command = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
+        mode = { "n", "x", "o" },
+      })
+    end,
   },
 
   -- better diagnostics list and others
@@ -157,32 +185,19 @@ return {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
     opts = { use_diagnostic_signs = true },
-    keys = {
-      { "<leader>lD", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-      { "<leader>lw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-      {
-        "[q",
-        function()
-          if require("trouble").is_open() then
-            require("trouble").previous({ skip_groups = true, jump = true })
-          else
-            vim.cmd.cprev()
-          end
-        end,
-        desc = "Previous trouble/quickfix item",
-      },
-      {
-        "]q",
-        function()
-          if require("trouble").is_open() then
-            require("trouble").next({ skip_groups = true, jump = true })
-          else
-            vim.cmd.cnext()
-          end
-        end,
-        desc = "Next trouble/quickfix item",
-      },
-    },
+    config = function()
+      vim.cmd([[
+        function! QfTrouble()
+          execute 'ccl'
+          execute 'TroubleToggle'
+        endfunction
+
+        augroup trouble
+          autocmd!
+          autocmd QuickFixCmdPost make call QfTrouble()
+        augroup END
+      ]])
+    end,
   },
 
   -- todo comments
@@ -190,6 +205,37 @@ return {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble", "TodoTelescope" },
     event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      keywords = {
+        FIX = {
+          icon = " ", -- icon used for the sign, and in search results
+          color = "error", -- can be a hex color, or a named color (see below)
+          alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+          -- signs = false, -- configure signs for some keywords individually
+        },
+        TODO = { icon = " ", color = "info" },
+        HACK = { icon = " ", color = "warning" },
+        WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+        TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      },
+      colors = {
+        info = { "DiagnosticInfo", "#62554A" },
+        hint = { "DiagnosticHint", "#d4be98" },
+      },
+      -- NOTE:
+      -- TEST:
+      -- HACK:
+      -- TODO:
+      -- WARN:
+      -- PERF:
+      -- NOTE:
+      -- TEST:
+      -- FIXME:
+      -- FIX:
+      -- ISSUE:
+    },
     config = true,
     -- stylua: ignore
     keys = {
