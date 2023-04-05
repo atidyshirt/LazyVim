@@ -185,19 +185,6 @@ return {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
     opts = { use_diagnostic_signs = true },
-    config = function()
-      vim.cmd([[
-        function! QfTrouble()
-          execute 'ccl'
-          execute 'TroubleToggle'
-        endfunction
-
-        augroup trouble
-          autocmd!
-          autocmd QuickFixCmdPost make call QfTrouble()
-        augroup END
-      ]])
-    end,
   },
 
   -- todo comments
@@ -224,17 +211,6 @@ return {
         info = { "DiagnosticInfo", "#62554A" },
         hint = { "DiagnosticHint", "#d4be98" },
       },
-      -- NOTE:
-      -- TEST:
-      -- HACK:
-      -- TODO:
-      -- WARN:
-      -- PERF:
-      -- NOTE:
-      -- TEST:
-      -- FIXME:
-      -- FIX:
-      -- ISSUE:
     },
     config = true,
     -- stylua: ignore
