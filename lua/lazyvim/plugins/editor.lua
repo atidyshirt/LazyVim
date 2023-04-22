@@ -98,10 +98,10 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     keys = {
-      { "<leader>hs", require("gitsigns").stage_hunk },
-      { "<leader>hu", require("gitsigns").undo_stage_hunk },
-      { "<leader>hS", require("gitsigns").stage_buffer },
-      { "<leader>hd", require("gitsigns").diffthis },
+      { "<leader>hs", ":Gitsigns stage_hunk" },
+      { "<leader>hu", ":Gitsigns undo_stage_hunk" },
+      { "<leader>hS", ":Gitsigns stage_buffer" },
+      { "<leader>hd", ":Gitsigns diffthis" },
       {
         "<leader>hD",
         function()
