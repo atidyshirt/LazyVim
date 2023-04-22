@@ -97,6 +97,19 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
+    keys = {
+      { "<leader>hs", require("gitsigns").stage_hunk },
+      { "<leader>hu", require("gitsigns").undo_stage_hunk },
+      { "<leader>hS", require("gitsigns").stage_buffer },
+      { "<leader>hd", require("gitsigns").diffthis },
+      {
+        "<leader>hD",
+        function()
+          require("gitsigns").diffthis("~")
+        end,
+      },
+      { "hi", ":<C-U>Gitsigns select_hunk<CR>" },
+    },
     opts = {
       signs = {
         add = { text = "▎" },
@@ -165,6 +178,21 @@ return {
         next = { command = require("illuminate").goto_next_reference, desc = "Next cursor word" },
         prev = { command = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
         mode = { "n", "x", "o" },
+      })
+      require("nap").operator("g", {
+        next = {
+          command = function()
+            require("gitsigns").next_hunk({ preview = true })
+          end,
+          desc = "Next diff",
+        },
+        prev = {
+          command = function()
+            require("gitsigns").prev_hunk({ preview = true })
+          end,
+          desc = "Prev diff",
+        },
+        mode = { "n", "v", "o" },
       })
     end,
   },
