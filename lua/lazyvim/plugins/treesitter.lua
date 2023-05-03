@@ -38,7 +38,6 @@ return {
       ensure_installed = {
         "bash",
         "c",
-        "help",
         "html",
         "javascript",
         "json",
@@ -53,6 +52,7 @@ return {
         "tsx",
         "typescript",
         "vim",
+        "vimdoc",
         "yaml",
       },
       incremental_selection = {
@@ -60,13 +60,24 @@ return {
         keymaps = {
           init_selection = "<C-space>",
           node_incremental = "<C-space>",
-          scope_incremental = "<nop>",
+          scope_incremental = false,
           node_decremental = "<bs>",
         },
       },
     },
     ---@param opts TSConfig
     config = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        ---@type table<string, boolean>
+        local added = {}
+        opts.ensure_installed = vim.tbl_filter(function(lang)
+          if added[lang] then
+            return false
+          end
+          added[lang] = true
+          return true
+        end, opts.ensure_installed)
+      end
       require("nvim-treesitter.configs").setup(opts)
     end,
   },

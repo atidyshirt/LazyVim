@@ -5,7 +5,9 @@ M._keys = nil
 
 ---@return (LazyKeys|{has?:string})[]
 function M.get()
-  local format = require("lazyvim.plugins.lsp.format").format
+  local format = function()
+    require("lazyvim.plugins.lsp.format").format({ force = true })
+  end
   if not M._keys then
   ---@class PluginLspKeys
     -- stylua: ignore
@@ -42,8 +44,8 @@ function M.get()
       M._keys[#M._keys + 1] = {
         "<leader>lr",
         function()
-          require("inc_rename")
-          return ":IncRename " .. vim.fn.expand("<cword>")
+          local inc_rename = require("inc_rename")
+          return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
         end,
         expr = true,
         desc = "Rename",
