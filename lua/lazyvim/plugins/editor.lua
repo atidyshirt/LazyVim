@@ -71,7 +71,17 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      {
       "debugloop/telescope-undo.nvim",
+        opts = {},
+        event = "VeryLazy",
+        config = function(_, opts)
+          require("telescope").load_extension("undo")
+        end,
+        keys = {
+          { "<leader>fu", "<Cmd>Telescope undo<CR>", desc = "Undo Tree" },
+        },
+      },
     },
     cmd = "Telescope",
     version = false, -- telescope did only one release, so use HEAD for now
@@ -81,7 +91,6 @@ return {
       { "<leader>fb", "<cmd> Telescope buffers <CR>" },
       { "<leader>fo", "<cmd> Telescope oldfiles <CR>" },
       { "<leader>fk", "<cmd> Telescope keymaps <CR>" },
-      { "<leader>fu", "<cmd> Telescope undo <CR>" },
     },
     opts = {
       defaults = {
