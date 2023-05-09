@@ -69,6 +69,10 @@ return {
   -- fuzzy finder
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "debugloop/telescope-undo.nvim",
+    },
     cmd = "Telescope",
     version = false, -- telescope did only one release, so use HEAD for now
     keys = {
@@ -77,6 +81,7 @@ return {
       { "<leader>fb", "<cmd> Telescope buffers <CR>" },
       { "<leader>fo", "<cmd> Telescope oldfiles <CR>" },
       { "<leader>fk", "<cmd> Telescope keymaps <CR>" },
+      { "<leader>fu", "<cmd> Telescope undo <CR>" },
     },
     opts = {
       defaults = {
