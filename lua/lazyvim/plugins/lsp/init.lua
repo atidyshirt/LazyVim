@@ -6,6 +6,7 @@ return {
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
       { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
+      { "lspcontainers/lspcontainers.nvim", config = true },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       {
@@ -126,6 +127,9 @@ return {
           if opts.setup["*"](server, server_opts) then
             return
           end
+        end
+        if os.getenv("NVIM_LSP_DOCKER") == "true" then
+          server_opts.cmd = require'lspcontainers'.command(server)
         end
         require("lspconfig")[server].setup(server_opts)
       end
