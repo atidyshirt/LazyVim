@@ -119,6 +119,14 @@ return {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
 
+        if os.getenv("NVIM_LSP_DOCKER") == "true" then
+          server_opts.before_init = function(params)
+            params.processId = vim.NIL
+          end
+          server_opts.cmd = require('lspcontainers').command(server)
+          server_opts.root_dir = require("lspconfig/util").root_pattern(".git", vim.fn.getcwd())
+        end
+
         if opts.setup[server] then
           if opts.setup[server](server, server_opts) then
             return
@@ -127,9 +135,6 @@ return {
           if opts.setup["*"](server, server_opts) then
             return
           end
-        end
-        if os.getenv("NVIM_LSP_DOCKER") == "true" then
-          server_opts.cmd = require'lspcontainers'.command(server)
         end
         require("lspconfig")[server].setup(server_opts)
       end
