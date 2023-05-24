@@ -4,7 +4,7 @@ return {
 
   -- file explorer
   {
-    "loctvl842/neo-tree.nvim",
+    "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
     keys = {
       {
