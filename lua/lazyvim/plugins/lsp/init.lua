@@ -6,7 +6,6 @@ return {
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
       { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
-      { "lspcontainers/lspcontainers.nvim", config = true },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       {
