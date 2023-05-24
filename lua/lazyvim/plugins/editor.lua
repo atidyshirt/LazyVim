@@ -39,7 +39,7 @@ return {
     opts = {
       source_selector = {
         winbar = true,
-        statusline = true
+        statusline = false
       },
       filesystem = {
         bind_to_cwd = false,
