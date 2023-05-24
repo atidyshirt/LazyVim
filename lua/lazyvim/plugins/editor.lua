@@ -37,6 +37,10 @@ return {
       end
     end,
     opts = {
+      source_selector = {
+        winbar = true,
+        statusline = true
+      },
       filesystem = {
         bind_to_cwd = false,
         follow_current_file = true,
