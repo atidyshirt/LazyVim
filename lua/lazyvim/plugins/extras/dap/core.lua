@@ -37,7 +37,6 @@ return {
     -- which key integration
     {
       "folke/which-key.nvim",
-      optional = true,
       opts = {
         defaults = {
           ["<leader>d"] = { name = "+debug" },
@@ -54,7 +53,7 @@ return {
       opts = {
         -- Makes a best effort to setup the various debuggers with
         -- reasonable debug configurations
-        automatic_installation = true,
+        automatic_setup = true,
 
         -- You can provide additional configuration to the handlers,
         -- see mason-nvim-dap README for more information

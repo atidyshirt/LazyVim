@@ -12,7 +12,6 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    optional = true,
     event = "VeryLazy",
     opts = function(_, opts)
       local Util = require("lazyvim.util")
@@ -55,7 +54,7 @@ return {
           -- fixes lazy-loading issues with the copilot cmp source
           require("lazyvim.util").on_attach(function(client)
             if client.name == "copilot" then
-              copilot_cmp._on_insert_enter({})
+              copilot_cmp._on_insert_enter()
             end
           end)
         end,
@@ -67,6 +66,21 @@ return {
 
       table.insert(opts.sources, 1, { name = "copilot", group_index = 2 })
 
+      local confirm = opts.mapping["<CR>"]
+      local confirm_copilot = cmp.mapping.confirm({
+        select = true,
+        behavior = cmp.ConfirmBehavior.Replace,
+      })
+
+      opts.mapping = vim.tbl_extend("force", opts.mapping, {
+        ["<CR>"] = function(...)
+          local entry = cmp.get_selected_entry()
+          if entry and entry.source.name == "copilot" then
+            return confirm_copilot(...)
+          end
+          return confirm(...)
+        end,
+      })
       opts.sorting = {
         priority_weight = 2,
         comparators = {
