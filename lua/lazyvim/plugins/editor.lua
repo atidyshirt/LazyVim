@@ -63,7 +63,7 @@ return {
 
   -- search/replace in multiple files
   {
-    "windwp/nvim-spectre",
+    "nvim-pack/nvim-spectre",
     -- stylua: ignore
     keys = {
       { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
@@ -73,6 +73,7 @@ return {
   -- fuzzy finder
   {
     "nvim-telescope/telescope.nvim",
+    commit = vim.fn.has("nvim-0.9.0") == 0 and "057ee0f8783" or nil,
     dependencies = {
       "nvim-lua/plenary.nvim",
       {

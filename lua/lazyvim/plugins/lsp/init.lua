@@ -5,7 +5,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
+      { "folke/neodev.nvim", opts = {} },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       {
@@ -35,6 +35,7 @@ return {
       capabilities = {},
       -- Automatically format on save
       autoformat = false,
+      format_notify = false,
       -- options for vim.lsp.buf.format
       -- `bufnr` and `filter` is handled by the LazyVim formatter,
       -- but can be also overridden when specified
@@ -77,10 +78,9 @@ return {
     config = function(_, opts)
       local Util = require("lazyvim.util")
       -- setup autoformat
-      require("lazyvim.plugins.lsp.format").autoformat = opts.autoformat
+      require("lazyvim.plugins.lsp.format").setup(opts)
       -- setup formatting and keymaps
       Util.on_attach(function(client, buffer)
-        require("lazyvim.plugins.lsp.format").on_attach(client, buffer)
         require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
       end)
 
@@ -127,9 +127,6 @@ return {
             return
           end
         end
-        if os.getenv("NVIM_LSP_DOCKER") == "true" then
-          server_opts.cmd = require'lspcontainers'.command(server)
-        end
         require("lspconfig")[server].setup(server_opts)
       end
 
@@ -154,8 +151,7 @@ return {
       end
 
       if have_mason then
-        mlsp.setup({ ensure_installed = ensure_installed })
-        mlsp.setup_handlers({ setup })
+        mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
       end
 
       if Util.lsp_get_config("denols") and Util.lsp_get_config("tsserver") then

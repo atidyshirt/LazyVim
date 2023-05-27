@@ -4,7 +4,7 @@ return {
   {
     "L3MON4D3/LuaSnip",
     build = (not jit.os:find("Windows"))
-        and "echo -e 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
       or nil,
     dependencies = {
       "rafamadriz/friendly-snippets",
@@ -58,10 +58,10 @@ return {
           ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.close(),
+          ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
-            select = false,
+            select = true,
           }),
           ["<C-l>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
