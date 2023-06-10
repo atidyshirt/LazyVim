@@ -190,13 +190,13 @@ return {
       require("nap").operator("h", {
         next = {
           command = function()
-            require("gitsigns").next_hunk({ preview = true })
+            require("gitsigns").next_hunk({ preview = false, wrap = true })
           end,
           desc = "Next diff",
         },
         prev = {
           command = function()
-            require("gitsigns").prev_hunk({ preview = true })
+            require("gitsigns").prev_hunk({ preview = false, wrap = true })
           end,
           desc = "Prev diff",
         },
