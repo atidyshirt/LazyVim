@@ -236,10 +236,6 @@ return {
         NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
         TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
       },
-      colors = {
-        info = { "DiagnosticInfo", "#a9b665" },
-        hint = { "DiagnosticHint", "#d4be98" },
-      },
     },
     config = true,
     -- stylua: ignore
