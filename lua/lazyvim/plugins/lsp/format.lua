@@ -5,7 +5,7 @@ local M = {}
 M.autoformat = false
 
 function M.enabled()
-  return M.opts.autoformat
+  return M.autoformat
 end
 
 function M.toggle()
