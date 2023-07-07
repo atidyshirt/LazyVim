@@ -57,13 +57,25 @@ return {
           expander_expanded = "",
           expander_highlight = "NeoTreeExpander",
         },
+        icon = {
+          folder_empty = "󰜌",
+          folder_empty_open = "󰜌",
+        },
+        git_status = {
+          symbols = {
+            renamed = "󰁕",
+            unstaged = "󰄱",
+          },
+        },
       },
     },
   },
 
   -- search/replace in multiple files
   {
-    "windwp/nvim-spectre",
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    opts = { open_cmd = "noswapfile vnew" },
     -- stylua: ignore
     keys = {
       { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
@@ -152,7 +164,13 @@ return {
   {
     "RRethy/vim-illuminate",
     event = { "BufReadPost", "BufNewFile" },
-    opts = { delay = 200 },
+    opts = {
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        providers = { "lsp" },
+      },
+    },
     config = function(_, opts)
       require("illuminate").configure(opts)
     end,

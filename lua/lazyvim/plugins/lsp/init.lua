@@ -31,6 +31,12 @@ return {
         },
         severity_sort = true,
       },
+      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+      -- Be aware that you also will need to properly configure your LSP server to
+      -- provide the inlay hints.
+      inlay_hints = {
+        enabled = false,
+      },
       -- add any global capabilities here
       capabilities = {},
       -- Automatically format on save
@@ -48,6 +54,10 @@ return {
         jsonls = {},
         lua_ls = {
           -- mason = false, -- set to false if you don't want this server to be installed with mason
+          -- Use this to add any additional keymaps
+          -- for specific lsp servers
+          ---@type LazyKeys[]
+          -- keys = {},
           settings = {
             Lua = {
               workspace = {
@@ -84,10 +94,32 @@ return {
         require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
       end)
 
+      local register_capability = vim.lsp.handlers["client/registerCapability"]
+
+      vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
+        local ret = register_capability(err, res, ctx)
+        local client_id = ctx.client_id
+        ---@type lsp.Client
+        local client = vim.lsp.get_client_by_id(client_id)
+        local buffer = vim.api.nvim_get_current_buf()
+        require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
+        return ret
+      end
+
       -- diagnostics
       for name, icon in pairs(require("lazyvim.config").icons.diagnostics) do
         name = "DiagnosticSign" .. name
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+      end
+
+      local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+
+      if opts.inlay_hints.enabled and inlay_hint then
+        Util.on_attach(function(client, buffer)
+          if client.server_capabilities.inlayHintProvider then
+            inlay_hint(buffer, true)
+          end
+        end)
       end
 
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
