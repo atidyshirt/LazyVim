@@ -187,13 +187,13 @@ return {
     init = function()
       require("nap").map("t", {
         next = {
-          command = function()
+          rhs = function()
             require("trouble").next({ skip_groups = true, jump = true })
           end,
           desc = "Trouble next",
         },
         prev = {
-          command = function()
+          rhs = function()
             require("trouble").previous({ skip_groups = true, jump = true })
           end,
           desc = "Trouble previous",
@@ -201,19 +201,25 @@ return {
         mode = { "n", "v", "o" },
       })
       require("nap").map("r", {
-        next = { command = require("illuminate").goto_next_reference, desc = "Next cursor word" },
-        prev = { command = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
+        next = { rhs = require("illuminate").goto_next_reference, desc = "Next cursor word" },
+        prev = { rhs = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
+        mode = { "n", "x", "o" },
+      })
+
+      require("nap").map("q", {
+        next = { rhs = ":cnext<cr>", desc = "Next cursor word" },
+        prev = { rhs =  ":cprev<cr>", desc = "Prev cursor word" },
         mode = { "n", "x", "o" },
       })
       require("nap").map("h", {
         next = {
-          command = function()
+          rhs = function()
             require("gitsigns").next_hunk({ preview = false, wrap = true })
           end,
           desc = "Next diff",
         },
         prev = {
-          command = function()
+          rhs = function()
             require("gitsigns").prev_hunk({ preview = false, wrap = true })
           end,
           desc = "Prev diff",
