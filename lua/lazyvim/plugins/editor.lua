@@ -185,7 +185,7 @@ return {
       prev_repeat = "<c-p>",
     },
     init = function()
-      require("nap").operator("t", {
+      require("nap").map("t", {
         next = {
           command = function()
             require("trouble").next({ skip_groups = true, jump = true })
@@ -200,12 +200,12 @@ return {
         },
         mode = { "n", "v", "o" },
       })
-      require("nap").operator("r", {
+      require("nap").map("r", {
         next = { command = require("illuminate").goto_next_reference, desc = "Next cursor word" },
         prev = { command = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
         mode = { "n", "x", "o" },
       })
-      require("nap").operator("h", {
+      require("nap").map("h", {
         next = {
           command = function()
             require("gitsigns").next_hunk({ preview = false, wrap = true })
