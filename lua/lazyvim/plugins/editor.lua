@@ -176,58 +176,45 @@ return {
     end,
   },
 
-  {
-    "liangxianzhe/nap.nvim",
-    opts = {
-      next_prefix = ",",
-      prev_prefix = ",",
-      next_repeat = "<c-n>",
-      prev_repeat = "<c-p>",
-    },
-    init = function()
-      require("nap").map("t", {
+{
+  "liangxianzhe/nap.nvim",
+  opts = {
+    next_prefix = ",",
+    prev_prefix = ",",
+    next_repeat = "<c-n>",
+    prev_repeat = "<c-p>",
+    operators = {
+      ["d"] = {
+        next = { rhs = vim.diagnostic.goto_next, opts = { desc = "Next diagnostic" } },
+        prev = { rhs = vim.diagnostic.goto_prev, opts = { desc = "Prev diagnostic" } },
+        mode = { "n", "v", "o" }
+      },
+      ["l"] = {
+        next = { rhs = "<cmd>lnext<cr>", opts = { desc = "Next loclist item" } },
+        prev = { rhs = "<cmd>lprevious<cr>", opts = { desc = "Prev loclist item" } }
+      },
+      ["q"] = {
+        next = { rhs = "<cmd>cnext<cr>", opts = { desc = "Next quickfix item" } },
+        prev = { rhs = "<cmd>cprevious<cr>", opts = { desc = "Prev quickfix item" } }
+      },
+      ["t"] = {
         next = {
           rhs = function()
             require("trouble").next({ skip_groups = true, jump = true })
           end,
-          desc = "Trouble next",
+          opts = { desc = "Trouble next" },
         },
         prev = {
           rhs = function()
             require("trouble").previous({ skip_groups = true, jump = true })
           end,
-          desc = "Trouble previous",
+          opts = { desc = "Trouble previous" },
         },
-        mode = { "n", "v", "o" },
-      })
-      require("nap").map("r", {
-        next = { rhs = require("illuminate").goto_next_reference, desc = "Next cursor word" },
-        prev = { rhs = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
-        mode = { "n", "x", "o" },
-      })
-
-      require("nap").map("q", {
-        next = { rhs = ":cnext<cr>", desc = "Next cursor word" },
-        prev = { rhs =  ":cprev<cr>", desc = "Prev cursor word" },
-        mode = { "n", "x", "o" },
-      })
-      require("nap").map("h", {
-        next = {
-          rhs = function()
-            require("gitsigns").next_hunk({ preview = false, wrap = true })
-          end,
-          desc = "Next diff",
-        },
-        prev = {
-          rhs = function()
-            require("gitsigns").prev_hunk({ preview = false, wrap = true })
-          end,
-          desc = "Prev diff",
-        },
-        mode = { "n", "v", "o" },
-      })
-    end,
-  },
+      },
+      init = function()
+        require("nap").map('c', require("nap").gitsigns())
+      end,
+    },
 
   -- better diagnostics list and others
   {
