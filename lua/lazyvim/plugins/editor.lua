@@ -39,7 +39,7 @@ return {
     opts = {
       source_selector = {
         winbar = true,
-        statusline = false
+        statusline = false,
       },
       filesystem = {
         bind_to_cwd = false,
@@ -88,7 +88,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
-      "debugloop/telescope-undo.nvim",
+        "debugloop/telescope-undo.nvim",
         opts = {},
         event = "VeryLazy",
         config = function(_, opts)
@@ -178,6 +178,7 @@ return {
 
   {
     "liangxianzhe/nap.nvim",
+    commit = "925921b",
     opts = {
       next_prefix = ",",
       prev_prefix = ",",
@@ -185,41 +186,35 @@ return {
       prev_repeat = "<c-p>",
     },
     init = function()
-      require("nap").map("t", {
+      require("nap").operator("t", {
         next = {
-          rhs = function()
+          command = function()
             require("trouble").next({ skip_groups = true, jump = true })
           end,
           desc = "Trouble next",
         },
         prev = {
-          rhs = function()
+          command = function()
             require("trouble").previous({ skip_groups = true, jump = true })
           end,
           desc = "Trouble previous",
         },
         mode = { "n", "v", "o" },
       })
-      require("nap").map("r", {
-        next = { rhs = require("illuminate").goto_next_reference, desc = "Next cursor word" },
-        prev = { rhs = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
+      require("nap").operator("r", {
+        next = { command = require("illuminate").goto_next_reference, desc = "Next cursor word" },
+        prev = { command = require("illuminate").goto_prev_reference, desc = "Prev cursor word" },
         mode = { "n", "x", "o" },
       })
-
-      require("nap").map("q", {
-        next = { rhs = ":cnext<cr>", desc = "Next cursor word" },
-        prev = { rhs =  ":cprev<cr>", desc = "Prev cursor word" },
-        mode = { "n", "x", "o" },
-      })
-      require("nap").map("h", {
+      require("nap").operator("h", {
         next = {
-          rhs = function()
+          command = function()
             require("gitsigns").next_hunk({ preview = false, wrap = true })
           end,
           desc = "Next diff",
         },
         prev = {
-          rhs = function()
+          command = function()
             require("gitsigns").prev_hunk({ preview = false, wrap = true })
           end,
           desc = "Prev diff",
